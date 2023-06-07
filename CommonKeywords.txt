@@ -1,0 +1,57 @@
+*** Settings ***
+Library           SeleniumLibrary
+Library           userdata.py
+Library           XML
+Library           OperatingSystem
+Library           String
+
+*** Variables ***
+${VALIDEMAIL}     support@ngendigital.com
+${VALIDPASSWORD}    abc123
+${DEMOAPPLICATIONURL}    https://ngendigital.com/demo-application
+${BROWSER}        Chrome
+
+*** Keywords ***
+Object On Page
+    Page Should Contain Element    //div[@class='box']//h1[contains(text(),'My Account')]
+    Page Should Contain Element    //input[@name='email']
+    Page Should Contain Element    //input[@name='passwd']
+    Page Should Contain Element    //div[@name='SignIn']
+    Page Should Contain Element    //div[@id='btn2']
+    Page Should Contain Element    //u[contains(text(),'Click Here!')]
+    Page Should Contain Element    //p[contains(text(),'Forgot your password?')]
+
+Change To Iframe
+    SelectFrame    //iframe[contains(@id, 'iframe-')]
+
+Invalid Email Format
+    Wait Until Keyword Succeeds    2    1    Input Text    //input[@name='email']    support.ngendigital.com
+    Wait Until Keyword Succeeds    2    1    Input Text    //input[@name='passwd']    ${VALIDPASSWORD}
+    Wait Until Keyword Succeeds    2    1    Click Element    //div[@name='SignIn']
+    ${text1}    Get Text    //div[@id='InvalidLogin']/p/label/font
+    Log    ${text1}
+    Element Should Contain    //div[@id='InvalidLogin']/p/label/font    ${text1}
+
+Invalid Password
+    Wait Until Keyword Succeeds    2    1    InputText    //input[@name='email']    ${VALIDEMAIL}
+    ${password}    userdata.pswd
+    Log    ${password}
+    Wait Until Keyword Succeeds    2    1    InputText    //input[@name='passwd']    ${password}
+    Wait Until Keyword Succeeds    2    1    Click Element    //div[@name='SignIn']
+    ${text1}    Get Text    //div[@id='InvalidLogin']/p/label/font
+    Log    ${text1}
+    Element Should Contain    //div[@id='InvalidLogin']/p/label/font    ${text1}
+
+Login
+    Wait Until Keyword Succeeds    2    1    InputText    //input[@name='email']    ${VALIDEMAIL}
+    Wait Until Keyword Succeeds    2    1    InputText    //input[@name='passwd']    ${VALIDPASSWORD}
+    Wait Until Keyword Succeeds    2    1    Click Element    //div[@name='SignIn']
+
+Verify After Login
+    Page Should Contain Element    //button[contains(text(),'Search Flights')]
+    Page Should Contain Element    //button[contains(text(),'Manage Booking')]
+    Page Should Contain Element    //button[contains(text(),'Check in')]
+    Page Should Contain Element    //button[contains(text(),'Log out')]
+
+Go To Home Page
+    Open Browser    ${DEMOAPPLICATIONURL}    ${BROWSER}
