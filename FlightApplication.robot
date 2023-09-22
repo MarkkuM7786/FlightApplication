@@ -127,3 +127,12 @@ TC12_ManageBooking_Select_Either_Flight/Hotel
     Click Element    xpath://button[normalize-space()='Get Fare']
     Wait Until Keyword Succeeds    2    1    Page Should Contain    Please choose one of Flight or Flight + Hotel!    INFO
     [Teardown]    Close Browser
+
+TC13_Search_Flight
+    [Setup]    Go To Home Page
+    Change To Iframe
+    Login
+    Change To Iframe
+    Verify After Login
+    Validate_Search_Flight
+    [Teardown]    Close Browser

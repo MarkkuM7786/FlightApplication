@@ -167,3 +167,14 @@ Book Business Flight
     Click Element    xpath://div[@id='FareBus']//tbody/tr[4]/td[4]
     Click Button    xpath://div[@id='FareBus']//button[@id='confirm']
     Page Should Contain    SUCCESS !! Your flight is booked
+
+Validate_Search_Flight
+    Set Selenium Speed    0.5
+    Wait Until Keyword Succeeds    2    1    Click Element    //button[@id='defaultOpen']
+    Input Text    //input[@id='FlightNo']    DA935
+    Wait Until Keyword Succeeds    2    1    Click Element    //div[@id='Search']//button[contains(text(),'Search')]
+    Page Should Contain Element    //table//tbody//tr/th//font[contains(text(),'Toronto(YYZ) to London(LHR)')]
+    Page Should Contain Element    //table//tbody//tr/th//font[contains(text(),'Terminal')]
+    Page Should Contain Element    //table//tbody//tr/th//font[contains(text(),'Scheduled')]
+    Page Should Contain Element    //table//tbody//tr/th//font[contains(text(),'Departed')]
+    Page Should Contain Element    //table//tbody//tr//font[contains(text(),'On time')]
